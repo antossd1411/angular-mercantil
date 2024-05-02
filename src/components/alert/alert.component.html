@@ -1,0 +1,9 @@
+@if (alertsService.existsMessage()) {
+  <ul [class]="alertsService.getVariant() + ' alert p-2 my-2'" (animationend)="alertsService.clear()">
+    @for (message of alertsService.getMessage(); track $index) {
+      <li>
+        {{message}}
+      </li>
+    }
+  </ul>  
+}

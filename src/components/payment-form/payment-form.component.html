@@ -1,0 +1,92 @@
+<form [formGroup]="paymentForm" (ngSubmit)="handleSubmit()" (reset)="handleReset()" autocomplete="off" class="p-4 border rounded-md bg-white border-gray-400 shadow">
+  <div class="mb-4 grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+    <div>
+      <label for="amount">Amount <span class="required">*</span></label>
+      <input id="amount" appTurnToFloat formControlName="amount" type="text" class="form-input" autofocus>
+      @if ((paymentForm.get('amount')?.touched || paymentForm.get('amount')?.dirty) && paymentForm.get('amount')?.errors) {
+        <div class="text-red-500">
+          <small>
+            {{
+              paymentForm.get('amount')?.errors!['required']
+            }}
+            {{
+              paymentForm.get('amount')?.errors!['min']
+            }}
+          </small>
+        </div>
+      }
+    </div>
+    <div>
+      <label for="bankCode">Destination bank <span class="required">*</span></label>
+      <select id="bankCode" formControlName="bankCode" class="form-input">
+        <option [value]="0"></option>
+        @for (bank of banks; track $index) {
+          <option [value]="bank.code"> {{bank.name}} </option>
+        }
+      </select>
+      @if ((paymentForm.get('bankId')?.touched || paymentForm.get('bankId')?.dirty) && paymentForm.get('bankId')?.errors) {
+        <div class="text-red-500">
+          <small>Value required</small>
+        </div>
+      }
+    </div>
+    <div>
+      <label for="destinationPhone">Destination number <span class="required">*</span></label>
+      <input id="destinationPhone" formControlName="destinationPhone" type="text"  class="form-input" [maxlength]="11">
+      @if ((paymentForm.get('destinationPhone')?.touched || paymentForm.get('destinationPhone')?.dirty) && paymentForm.get('destinationPhone')?.errors) {
+        <div class="text-red-500">
+          @if (paymentForm.get('destinationPhone')?.errors!['required']) {
+            <small>Value required</small>
+          } @else {
+            <small>Max length: 11</small>
+          }
+        </div>
+      }
+    </div>
+    <div>
+      <label for="dni">Clients DNI <span class="required">*</span></label>
+      <input id="dni" formControlName="dni" type="text"  class="form-input" [maxlength]="11">
+      @if ((paymentForm.get('dni')?.touched || paymentForm.get('dni')?.dirty) && paymentForm.get('dni')?.errors) {
+        <div class="text-red-500">
+          @if (paymentForm.get('dni')?.errors!['required']) {
+            <small>Value required</small>
+          } @else {
+            <small>Max length: 11</small>
+          }
+        </div>
+      }
+    </div>
+    <div>
+      <label for="paymentReference">Payment reference <span class="required">*</span></label>
+      <input id="paymentReference" formControlName="paymentReference" type="text"  class="form-input" [maxlength]="11">
+      @if ((paymentForm.get('paymentReference')?.touched || paymentForm.get('paymentReference')?.dirty) && paymentForm.get('paymentReference')?.errors) {
+        <div class="text-red-500">
+          @if (paymentForm.get('paymentReference')?.errors!['required']) {
+            <small>Value required</small>
+          } @else {
+            <small>Max length: 11</small>
+          }
+        </div>
+      }
+    </div>
+    <div>
+      <label for="invoiceNumber">Invoice number <span class="required">*</span></label>
+      <input id="invoiceNumber" formControlName="invoiceNumber" type="text"  class="form-input" [maxlength]="11">
+      @if ((paymentForm.get('invoiceNumber')?.touched || paymentForm.get('invoiceNumber')?.dirty) && paymentForm.get('invoiceNumber')?.errors) {
+        <div class="text-red-500">
+          @if (paymentForm.get('invoiceNumber')?.errors!['required']) {
+            <small>Value required</small>
+          } @else {
+            <small>Max length: 11</small>
+          }
+        </div>
+      }
+    </div>
+  </div>
+  <div class="text-end">
+    <button type="reset" class="button">Clear</button>
+    <button type="submit" class="button ms-2 bg-green-600 text-white" [disabled]="paymentForm.invalid">Submit</button>
+  </div>
+</form>
+
+<app-alert />
